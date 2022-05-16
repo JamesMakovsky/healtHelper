@@ -257,12 +257,6 @@ class CalendarCellAdapter extends TypeAdapter<CalendarCell> {
 		writer.endArray();
 	}
 
-	private void writeExerciseListOfList(JsonWriter writer, ArrayList<ArrayList<Exercise>> exercises) throws IOException {
-		writer.beginArray();
-		for (ArrayList<Exercise> exerciseList : exercises) { writeExerciseList(writer, exerciseList); }
-		writer.endArray();
-	}
-
 	private void writeTraining(JsonWriter writer, Training training) throws IOException {
 		writer.beginObject();
 		if (training.getID() != null) {
@@ -274,7 +268,7 @@ class CalendarCellAdapter extends TypeAdapter<CalendarCell> {
 		writer.name("description");
 		writer.value(training.getDescription());
 		writer.name("exercises");
-		writeExerciseListOfList(writer, training.getExercises());
+		writeExerciseList(writer, training.getExercises());
 		writer.endObject();
 	}
 

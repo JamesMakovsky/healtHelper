@@ -51,7 +51,36 @@ public class Meal {
 	// Добавление в список продукта и обновление калорийности приема пищи
 	private void addProductAndUpdateCalority(Product prod) {
 		productList.add(prod);
-		this.calority.addCalority(prod.getCalority().calculateCalorityOfMass(prod.getMassGramms()));
+		updateCalority();
+		//this.calority.addCalority(prod.getCalority().calculateCalorityOfMass(prod.getMassGramms()));
+	}
+
+	private void updateCalority() {
+		Calority cal = new Calority();
+		for (Product prod : productList) {
+			cal.addCalority(prod.getCalority().calculateCalorityOfMass(prod.getMassGramms()));
+		}
+		this.calority = cal;
+	}
+
+	public void deleteProduct(int index) {
+		safeDeleteProduct(index);
+		updateCalority();
+	}
+
+	private boolean safeDeleteProduct(int index) {
+		boolean flag = false;
+		if (productList.size() > index) {
+			try {
+				this.productList.remove(index);
+				flag = true;
+			} catch (Exception e) {
+				System.out.println(e);
+				flag = false;
+			}
+		}
+
+		return flag;
 	}
 
 	public Meal(String name) {

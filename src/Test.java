@@ -17,10 +17,13 @@ public class Test {
 			meal.addProduct(serializer, 4, 200);
 			meal.addProduct(serializer, 0, 300);
 			meal.addProduct(serializer, 2, 150);
+			meal.deleteProduct(1);
 			//serializer.printJSON(meal);
 
 			Training training = new Training("Название", "Описание тренировки");
-			training.addExercise(serializer, Training.MAIN_EXERCISE, 0, 3, 10);
+			training.addExercise(serializer, 0, 3, 10);
+			training.addExercise(serializer, 0, 5, 3);
+			training.deleteExercise(1);
 			//serializer.printJSON(training);
 
 			CalendarCell calendarCell = new CalendarCell();

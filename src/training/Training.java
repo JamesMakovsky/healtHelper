@@ -44,37 +44,45 @@ public class Training implements InitializeInterface<Training> {
 		1. Основные упражнения 	MAIN_EXERCISE
 		2. Заминка 				COOLDOWN_EXERCISE
 	*/
-	public static final Integer WARMUP_EXERCISE = 0;
-	public static final Integer MAIN_EXERCISE = 1;
-	public static final Integer COOLDOWN_EXERCISE = 2;
+	public static final int WARMUP_EXERCISE = 0;
+	public static final int MAIN_EXERCISE = 1;
+	public static final int COOLDOWN_EXERCISE = 2;
 
 	// Список упражнений
-	private ArrayList<ArrayList<Exercise>> exercises;
-	public void setExercises(ArrayList<ArrayList<Exercise>> exercises) { this.exercises = exercises; }
-	public ArrayList<ArrayList<Exercise>> getExercises() { return exercises; }
+	private ArrayList<Exercise> exercises;
+	public void setExercises(ArrayList<Exercise> exercises) { this.exercises = exercises; }
+	public ArrayList<Exercise> getExercises() { return exercises; }
 
 
 	// Добавление упражнений в тренировку
-	private void addExerciseHidden(Integer ts, Exercise ex) {
-		exercises.get(ts).add(ex);
+	private void addExerciseHidden(Exercise ex) {
+		exercises.add(ex);
+		calculateWholeTrainingTime();
 	}
 
 	// Добавление в список упражнений нового по экземпляру упражнения
-	public void addExercise(Integer trainingStage, Exercise ex) {
-		addExerciseHidden(trainingStage, ex);
+	public void addExercise(Exercise ex) {
+		addExerciseHidden(ex);
 	}
 
-	public void addExercise(Serializer serializer, Integer trainingStage, Integer ID, Integer times, Integer apr) {
+	public void addExercise(Serializer serializer, Integer ID, Integer times, Integer apr) {
 		Exercise ex = new Exercise(serializer, ID);
 		ex.setTimes(times);
 		ex.setApproaches(apr);
-		addExerciseHidden(trainingStage, ex);
+		addExerciseHidden(ex);
 	}
 
 	// Добавление в список упражнений нового (без инвентаря)
-	public void addExercise(Serializer serializer, Integer trainingStage, String name, String description, ArrayList<Integer> bodyPartIDList, Integer apr, Integer tms) {
+	public void addExercise(Serializer serializer, String name, String description, ArrayList<Integer> bodyPartIDList, Integer apr, Integer tms) {
 		Exercise ex = new Exercise(serializer, name, description, bodyPartIDList, apr, tms);
-		addExerciseHidden(trainingStage, ex);
+		addExerciseHidden(ex);
+	}
+
+	// Удаление упражнения
+	public void deleteExercise(int index) {
+		if (index < exercises.size()) {
+			this.exercises.remove(index);
+		}
 	}
 
 	// interface method implementation
@@ -104,16 +112,7 @@ public class Training implements InitializeInterface<Training> {
 	}
 
 	private void InitializeExerciseArray() {
-		exercises = new ArrayList<>();
-
-		// Warm-up [0]
-		exercises.add(new ArrayList<Exercise>());
-
-		// Main [1]
-		exercises.add(new ArrayList<Exercise>());
-
-		// Cool-down [2]
-		exercises.add(new ArrayList<Exercise>());
+		exercises = new ArrayList<Exercise>();
 	}
 	
 	// default constructor
@@ -134,5 +133,5 @@ public class Training implements InitializeInterface<Training> {
 
 	// Время полной тренировки
 	// private (???) wholeTrainingTime;
-	// private void calculateWholeTrainingTime();
+	private void calculateWholeTrainingTime() { }
 }
